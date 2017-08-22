@@ -6,7 +6,7 @@ from FlaskWebProject import app
 
 # In[6]:
 @app.route('/investmentcondofinder')
-def awesome():
+def investmentcondofinder():
     """Renders investmentcondofinder"""
     return render_template(
         'investmentcondofinder.html',
