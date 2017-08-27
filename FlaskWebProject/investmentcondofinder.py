@@ -1,7 +1,7 @@
 
 # coding: utf-8
 from datetime import datetime
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for, request, flash
 from FlaskWebProject import app
 
 # ...............................................#
@@ -29,17 +29,22 @@ def index():
     name=session.get('name'),title='Investment Condo Finder',
     current_time=datetime.utcnow())
 
+@app.route('/result', methods=['GET', 'POST'])
+def result():
+    """Renders input result page."""
+    form = NameForm
+    if request.method == 'POST':
+        teststatus = 'success'
+        return render_template('result.html',title=request.form[('name')],
+        year=datetime.now().year, teststatus=teststatus)
 
 # ...............................................#
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def home():
     """Renders feedback page."""
-    return render_template(
-        'contact.html',
-        title='contact',
-        year=datetime.now().year,
-    )
+    if request.method == 'POST':
+        return render_template('contact.html',title='Contact',year=datetime.now().year,)
 
 @app.route('/about')
 def awesome():
