@@ -14,3 +14,4 @@ moment = Moment(app)
 
 #import FlaskWebProject.views
 import FlaskWebProject.investmentcondofinder
+import FlaskWebProject.Investment_Condo_Finder_Submit_V3

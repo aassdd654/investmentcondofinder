@@ -3,11 +3,11 @@
 from datetime import datetime
 from flask import Flask, render_template, session, redirect, url_for, request, flash
 from FlaskWebProject import app
-
+from FlaskWebProject import Investment_Condo_Finder_Submit_V3
 # ...............................................#
 # form #
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField,
 from wtforms.validators import Required
 
 # ...............................................#
@@ -35,8 +35,11 @@ def result():
     form = NameForm
     if request.method == 'POST':
         teststatus = 'success'
-        return render_template('result.html',title=request.form[('name')],
-        year=datetime.now().year, teststatus=teststatus)
+        #x = request.form[('name')]
+        x = "San Francisco, CA 94158"
+        result = Investment_Condo_Finder_Submit_V3.find_valuable_listing(x)
+        return render_template('result.html',title="condo listings",
+        year=datetime.now().year, teststatus=teststatus, result = result)
 
 # ...............................................#
 
