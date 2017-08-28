@@ -7,7 +7,7 @@ from FlaskWebProject import Investment_Condo_Finder_Submit_V3
 # ...............................................#
 # form #
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField,
+from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 
 # ...............................................#
