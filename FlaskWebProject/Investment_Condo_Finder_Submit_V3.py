@@ -958,17 +958,17 @@ def find_valuable_listing(zipcode):
     # user input required information:
 
 
-    #downpayment = user_input("enter your downpayment $USD: ", 0, 2500000)
+    downpayment = user_input("enter your downpayment $USD: ", 0, 2500000)
 
-    #principal = user_input("enter mortgage loan $USD: ", 0, 2000000)
+    principal = user_input("enter mortgage loan $USD: ", 0, 2000000)
 
-    #interest_rate = user_input("enter annual interest rate %: ", 0, 10)
+    interest_rate = user_input("enter annual interest rate %: ", 0, 10)
 
-    #amortization_period = user_input("enter mortgage years: ", 0, 30)
+    amortization_period = user_input("enter mortgage years: ", 0, 30)
 
-    #deal = Deal(downpayment, principal, interest_rate, amortization_period)
+    deal = Deal(downpayment, principal, interest_rate, amortization_period)
 
-    deal = Deal(200000, 850000, 3.75, 30) # for quick testing
+    #deal = Deal(200000, 850000, 3.75, 30) # for quick testing
 
     print("-"*50)
     affordable_amount = deal.getAffordableAmount()

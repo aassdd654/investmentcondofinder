@@ -7,39 +7,64 @@ from FlaskWebProject import Investment_Condo_Finder_Submit_V3
 # ...............................................#
 # form #
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import Required
+from wtforms import StringField, SubmitField, DecimalField, FloatField, IntegerField, SelectField
+from wtforms.validators import Required, NumberRange
+
 
 # ...............................................#
 
-class NameForm(FlaskForm):
-    name = StringField('Choose The Zipcode:', validators=[Required()])
+class InputForm(FlaskForm):
+    #zipcode = StringField('Choose The Zipcode:', validators=[Required()])
+    zipcode = SelectField('Choose The Zipcode:', validators=[Required()], choices=[('San Francisco, CA 94158', 'San Francisco, CA 94158'), ('94103', '94103')])
+    downpayment = IntegerField('downpayment:',validators=[Required(),
+    NumberRange(min=100000, max=500000, message='between 100,000 and 500,000')])
+    principal = IntegerField("Mortgage Loan $USD: ", validators=[Required(),
+    NumberRange(min=100000, max=2000000, message='between 100,000 and 2,000,000')])
+    interest_rate = DecimalField("Interest Rate %: ", validators=[Required(),
+    NumberRange(min=1, max=10, message="between 1 and 10")])
+    amortization_period = IntegerField("Mortgage Years: ", validators=[Required(),
+    NumberRange(min=1, max=10, message="between 1 and 30")])
+    #deal = Deal(downpayment, principal, interest_rate, amortization_period)
     submit = SubmitField('Submit')
-
 
 # ...............................................#
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = NameForm() #this line passes the class NameForm(FlaskForm)'s attributes to new form
+    form = InputForm() #this line passes the class InputForm(FlaskForm)'s attributes to new form
     if form.validate_on_submit():
-        session['name'] = form.name.data
+        session['zipcode'] = form.zipcode.data
+        session['downpayment'] = form.downpayment.data
+        session['principal'] = form.principal.data
+        session['interest_rate'] = form.interest_rate.data
+        session['amortization_period'] = form.amortization_period.data
         return redirect(url_for('index'))
-    return render_template('investmentcondofinder.html',form=form,
-    name=session.get('name'),title='Investment Condo Finder',
-    current_time=datetime.utcnow())
+    return render_template(
+    'investmentcondofinder.html',
+    form=form,
+    title='Investment Condo Finder',
+    zipcode=session.get('zipcode'),
+    downpayment=session.get('downpayment'),
+    principal=session.get('principal'),
+    interest_rate=session.get('interest_rate'),
+    amortization_period=session.get('amortization_period'),
+    current_time=datetime.utcnow()
+    )
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
     """Renders input result page."""
-    form = NameForm
+    form = InputForm
     if request.method == 'POST':
-        teststatus = 'success'
-        #x = request.form[('name')]
-        x = "San Francisco, CA 94158"
-        result = Investment_Condo_Finder_Submit_V3.find_valuable_listing(x)
+        #x = "San Francisco, CA 94158"
+        zipcode = request.form[('zipcode')]
+        downpayment =  request.form[('downpayment')]
+        principal = request.form[('principal')]
+        interest_rate = request.form[('interest_rate')]
+        amortization_period = request.form[('amortization_period')]
+        result = Investment_Condo_Finder_Submit_V3.find_valuable_listing(zipcode)
         return render_template('result.html',title="condo listings",
-        year=datetime.now().year, teststatus=teststatus, result = result)
+        year=datetime.now().year, result = result)
 
 # ...............................................#
 
