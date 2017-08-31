@@ -677,7 +677,7 @@ class Listing():
 class Deal():
 
 
-    judgement = ["Good Deal (•◡•)", "Perfect Deal [̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]", 'Pass', 'Incomplete Good Deal', 'Incomplete Perfect Deal']
+    judgement = ["Good Deal", "Perfect Deal", 'Pass', 'Incomplete Good Deal', 'Incomplete Perfect Deal']
 
     def __init__(self, downpayment, principal, interest_rate, amortization_period):
         self.downpayment = downpayment
@@ -1006,7 +1006,7 @@ def find_valuable_listing(zipcode, downpayment, principal, interest_rate, amorti
                               11.coverage percentage of principal/rental
             """
 
-            if value[8] == "Perfect Deal [̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]":
+            if value[8] == "Perfect Deal":
                 result.append([
                 str(value[8]),
                 "a. worry free: rental income will cover all expense and principal",
@@ -1016,7 +1016,7 @@ def find_valuable_listing(zipcode, downpayment, principal, interest_rate, amorti
                 str("e. " + value[0])
                 ])
 
-            elif value[8] == "Good Deal (•◡•)":
+            elif value[8] == "Good Deal":
                 result.append([
                 str(value[8]),
                 "a. you will still need to pay partial principal",
@@ -1047,7 +1047,7 @@ def find_valuable_listing(zipcode, downpayment, principal, interest_rate, amorti
                 str("d. use this link to verify the HOA fee: " + value[0])
                 ])
 
-            elif value[8] == 'Perfect Deal [̲̅$̲̅(̲̅5̲̅)̲̅$̲̅] and no mortgage needed':
+            elif value[8] == 'Perfect Deal and no mortgage needed':
                 result.append([
                 str(value[8]),
                 "a. worry free: rental income will cover all expense",
