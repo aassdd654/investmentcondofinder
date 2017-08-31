@@ -51,14 +51,14 @@
 
 <div class="container">
   <div class="page-content2">
-    <h3> {{ result }} </h3>
-    <h2>
+    <h3>
       {% for i in result %}
         {% for j in i %}
           {{ j }}
+          <p>
         {% endfor %}
       {% endfor %}
-    </h2>
+    </h3>
   </div>
 </div>
 
