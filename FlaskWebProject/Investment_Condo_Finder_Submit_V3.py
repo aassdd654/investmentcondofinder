@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[6]:
+# In[4]:
 
 import sys
 
@@ -60,7 +60,7 @@ class ZillowError(Exception):
 
 
 
-# In[7]:
+# In[26]:
 
 from decimal import Decimal
 
@@ -78,7 +78,7 @@ class Mortgage():
     # investment budget = downpayment + max loan(for example, mortgage approval from the bank)
     def getAffordableAmount(self):
 
-        self.affordableamount = self.principal + self.downpayment
+        self.affordableamount = float(self.principal + self.downpayment)
         #print(self.affordableamount)
 
         return self.affordableamount
@@ -146,7 +146,7 @@ class Mortgage():
 
 
 
-# In[8]:
+# In[27]:
 
 import os
 import time
@@ -170,7 +170,7 @@ class Waitbar():
         return
 
 
-# In[ ]:
+# In[28]:
 
 import sys
 # for zillow API
@@ -417,26 +417,26 @@ class Listing():
         #print('test begin')
         all_listings = {}
         #print("-"*50)
-        print('going through', len(addresslist), 'address(es)')
+        #print('going through', len(addresslist), 'address(es)')
 
 
-        print("-"*50)
-        print('searching for the estimated selling price of every listing found')
+        #print("-"*50)
+        #print('searching for the estimated selling price of every listing found')
 
-        print("-"*50)
+        #print("-"*50)
         for address in addresslist:
             #print('all listings addresses', address)
             new_listings = self.getListing(self.getDeepSearchResults(address, zipcode))
-            print('found ' + str(len(new_listings)) + ' listing(s) ' + address )
+            #print('found ' + str(len(new_listings)) + ' listing(s) ' + address )
 
             all_listings.update(new_listings)
 
-        print("-"*50)
-        print('found ' + str(len(all_listings)) + ' listing(s) in total')
+        #print("-"*50)
+        #print('found ' + str(len(all_listings)) + ' listing(s) in total')
 
-        print("-"*50)
-        print('start reviewing...(￣(エ)￣)ゞ...')
-        time.sleep(2)
+        #print("-"*50)
+        #print('start reviewing...(￣(エ)￣)ゞ...')
+        #time.sleep(2)
 
         #print(all_listings)
         return all_listings
@@ -464,16 +464,18 @@ class Listing():
                 affordable_listings.update({key: value})
 
         if len(affordable_listings) > 0:
-            print("-"*50)
-            print("found " + str(len(affordable_listings)) + " listing(s) within your investment budget")
-            time.sleep(2)
+            #print("-"*50)
+            #print("found " + str(len(affordable_listings)) + " listing(s) within your investment budget")
+            #time.sleep(2)
+            return affordable_listings
 
         elif len(affordable_listings) == 0:
 
-            print("-"*50)
-            print("no advisable listing with given investment budget")
+            #print("-"*50)
+            #print("no advisable listing with given investment budget")
+            return affordable_listings
 
-        return affordable_listings
+
 
 
     # consolidate all listings from the address list
@@ -491,31 +493,31 @@ class Listing():
         all_affordable_listings_property = {}
 
 
-        print("-"*50)
-        print("retrieving estimated rental income, estimated property tax and listed strata fee")
-        time.sleep(2)
-        cls()
+        #print("-"*50)
+        #print("retrieving estimated rental income, estimated property tax and listed strata fee")
+        #time.sleep(2)
+        #cls()
         #waitbar setting
-        waitbar_full = len(affordable_address_list)
+        #waitbar_full = len(affordable_address_list)
         #print(waitbar_full)
-        count_waitbar = 0
+        #count_waitbar = 0
 
-        print("-"*50)
+        #print("-"*50)
         for address in affordable_address_list:
             #print(address)
-            count_waitbar += 1
+            #count_waitbar += 1
             #print("count bar", count_waitbar)
-            percentage = round(count_waitbar / waitbar_full, 2)
+            #percentage = round(count_waitbar / waitbar_full, 2)
             #print("percentage", percentage)
-            Waitbar().updateWaitbar(percentage)
+            #Waitbar().updateWaitbar(percentage)
 
             new_affordable_listings = self.getListingProperty(affordable_listings, self.getDeepSearchResults(address, zipcode))
             #print('found ' + str(len(new_affordable_listings)) + ' listing(s) on ' + address )
 
             all_affordable_listings.update(new_affordable_listings)
 
-        print('pass ' + str(len(affordable_listings) - len(all_affordable_listings)) + ' listing(s) due to missing rental and tax information')
-        print('found ' + str(len(all_affordable_listings)) + ' listing(s) with complete information in total')
+        #print('pass ' + str(len(affordable_listings) - len(all_affordable_listings)) + ' listing(s) due to missing rental and tax information')
+        #print('found ' + str(len(all_affordable_listings)) + ' listing(s) with complete information in total')
 
         #print(all_affordable_listings)
         return all_affordable_listings
@@ -670,7 +672,7 @@ class Listing():
 
 
 
-# In[ ]:
+# In[29]:
 
 class Deal():
 
@@ -686,10 +688,10 @@ class Deal():
 
     def getAffordableAmount(self):
 
-        self.affordable_amount= Mortgage(self.downpayment,
+        self.affordable_amount= float(Mortgage(self.downpayment,
                                          self.principal,
                                          self.interest_rate,
-                                         self.amortization_period).getAffordableAmount()
+                                         self.amortization_period).getAffordableAmount())
         return self.affordable_amount
 
 
@@ -741,7 +743,6 @@ class Deal():
                             '57 Woodward St',
                             '60 Rausch St',
                             '426 14th St'] # 94103
-            print("arrives at the zipcode 103")
 
         elif zipcode == 'San Francisco, CA 94105':
             # '301 Mission St APT 24D'
@@ -761,6 +762,7 @@ class Deal():
             address_list = ['2250 24th St',
                             '875 Vermont St',
                             '116 Connecticut St'] # 94107
+
 
         all_listings = Listing(self.affordable_amount).getAllListings(address_list, zipcode)
         self.affordable_listings = Listing(self.affordable_amount).getAffordableListings(all_listings)
@@ -945,64 +947,49 @@ class Deal():
         return self.all_affordable_listings
 
 
-# In[ ]:
+# In[43]:
 
 ## import itertools
 import threading
 import time
 import sys
 
-def find_valuable_listing(zipcode):
+def display_investment_budget(downpayment, principal, interest_rate, amortization_period):
+    downpayment = float(downpayment)
+    principal = float(principal)
+    interest_rate = float(interest_rate)
+    amortization_period = int(amortization_period)
+    deal = Deal(downpayment, principal, interest_rate, amortization_period)
+    affordable_amount = deal.getAffordableAmount()
+    return affordable_amount
 
-
-    # user input required information:
-
-
-    downpayment = user_input("enter your downpayment $USD: ", 0, 2500000)
-
-    principal = user_input("enter mortgage loan $USD: ", 0, 2000000)
-
-    interest_rate = user_input("enter annual interest rate %: ", 0, 10)
-
-    amortization_period = user_input("enter mortgage years: ", 0, 30)
+def find_valuable_listing(zipcode, downpayment, principal, interest_rate, amortization_period):
+    downpayment = float(downpayment)
+    principal = float(principal)
+    interest_rate = float(interest_rate)
+    amortization_period = int(amortization_period)
 
     deal = Deal(downpayment, principal, interest_rate, amortization_period)
 
     #deal = Deal(200000, 850000, 3.75, 30) # for quick testing
 
-    print("-"*50)
     affordable_amount = deal.getAffordableAmount()
-    print('your investment budget is $', affordable_amount)
 
-    print("-"*50)
     listings = deal.getListing(zipcode)
-    #print('get listing ' + str(len(listings)) + ' listings')
+    result = []
 
-    #print(listings)
     if len(listings) > 0:
-        #print('get listing ' + str(len(listings)) + ' listings')
-        print("-"*50)
-        #interest based on the principal (estimate - downpayment)
+
         interest = deal.getUpdatedInterest()
-        print('calculating the expenses and rental incomes...')
-        #time.sleep(3)
-        print("-"*50)
         final_result = deal.compare()
-        print('read me:')
-        print("""1)the tool performs the analysis only for the first year data""")
-        print("""2)the tool does not consider the opportunity cost of the downpayment.""")
-        # display the disclaimer
-        time.sleep(1)
+        #print('analyzing ' + str(len(final_result)) + ' deal(s)...')
+        #count = 0
+        #store output result for web display
+        #for example: result = {{zpid: [partial of attributes]}, {listng2: [partial of attributes]}}
 
-        print("-"*50)
-        print('analyzing ' + str(len(final_result)) + ' deal(s)...')
-        count = 0
         for key, value in final_result.items():
-            #print(key, value)
-            #time.sleep(2)
 
-            count += 1
-            print("-"*50)
+            #count += 1
             """
             listing sample:
             listings[zpid] = [0.home_detail_link,
@@ -1018,173 +1005,73 @@ def find_valuable_listing(zipcode):
                               10.net_income profit (rental_estimate - all expenses(interest, property_tax, hoa) - principal)
                               11.coverage percentage of principal/rental
             """
-            #print(value)
-            #print(value[8])
+
             if value[8] == "Perfect Deal [̲̅$̲̅(̲̅5̲̅)̲̅$̲̅]":
-                print(str(count) + ') ' + str(value[8]) )
-                print("a. worry free: rental income will cover all expense and principal" + """\n""" +
-                      "b. covered 100% expense" + """\n""" +
-                      "c. covered 100% principal of the first year" + """\n""" +
-                      "d. net cash income (rental - all expenses - principal) = "+ str(value[10]) + " for first year" + """\n""" +
-                      "e. " + value[0])
+                result.append([
+                str(value[8]),
+                "a. worry free: rental income will cover all expense and principal",
+                "b. covered '100%' expense",
+                "c. covered '100%' principal of the first year",
+                str("d. net cash income (rental - all expenses - principal) = "+ str(value[10]) + " for first year"),
+                str("e. " + value[0])
+                ])
 
             elif value[8] == "Good Deal (•◡•)":
-                print(str(count) + ') ' + str(value[8]) )
-                print("a. you will still need to pay partial principal" + """\n""" +
-                      "b. cover 100% Expense" + """\n""" +
-                      "c. cover " + str(value[11]) + '% principal of the first year' + """\n""" +
-                      "d. gross income [rental - expenses] = "+ str(value[9]) + " for first year" + """\n""" +
-                      "e. net cash shortage [rental - expenses - principal] =  " + str(value[10])+ " for first year" + """\n""" +
-                      "f. " + value[0])
+                result.append([
+                str(value[8]),
+                "a. you will still need to pay partial principal",
+                "b. cover '100%' Expense",
+                str("c. cover " + str(value[11]) + '% principal of the first year'),
+                str("d. gross income [rental - expenses] = "+ str(value[9]) + " for first year"),
+                str("e. net cash shortage [rental - expenses - principal] =  " + str(value[10])+ " for first year"),
+                str("f. " + value[0])
+                ])
 
             elif value[8] == "Pass":
-                print(str(count) + ') ' + str(value[8]) )
-                print("a. you will have to pay partial expense and all principal" + """\n""" +
-                      "b. gross shortage [rental - expenses] =  " + str(value[10])+ " for first year" + """\n""" +
-                      "c. net cash shortage [rental - expenses - principal] =  " + str(value[10])+ " for first year" + """\n""" +
-                      "d. " + value[0])
+                result.append([
+                str(value[8]),
+                "a. you will have to pay partial expense and all principal",
+                "b. gross shortage [rental - expenses] =  " + str(value[10])+ " for first year",
+                str("b. gross shortage [rental - expenses] =  " + str(value[10])+ " for first year"),
+                str("c. net cash shortage [rental - expenses - principal] =  " + str(value[10])+ " for first year"),
+                str("d. " + value[0])
+                ])
 
             elif value[8] == 'Incomplete Good Deal' or value[8] == 'Incomplete Perfect Deal':
-                print(str(count) + ') ' + str(value[8]) )
-                print("a. the HOA value is not found due to " + value[4] + """\n""" +
-                      "b. worth to check this listing as its rental income will cover all expense(without HOA) and principal"+ """\n""" +
-                      "c. incomplete net cash income (rental - expenses(without HOA) - principal) = "+ str(value[10]) + " for first year" + """\n""" +
-                      "d. use this link to verify the HOA fee: " + value[0])
+                result.append([
+                str(value[8]),
+                str("a. the HOA value is not found due to " + value[4]),
+                "b. worth to check this listing as its rental income will cover all expense(without HOA) and principal",
+                str("b. gross shortage [rental - expenses] =  " + str(value[10])+ " for first year"),
+                str("c. incomplete net cash income (rental - expenses(without HOA) - principal) = "+ str(value[10]) + " for first year"),
+                str("d. use this link to verify the HOA fee: " + value[0])
+                ])
+
             elif value[8] == 'Perfect Deal [̲̅$̲̅(̲̅5̲̅)̲̅$̲̅] and no mortgage needed':
-                print(str(count) + ') ' + str(value[8]) )
-                print("a. worry free: rental income will cover all expense" + """\n""" +
-                      "b. covered 100% expense" + """\n""" +
-                      "c. net cash income (rental - all expenses - principal) = "+ str(value[10]) + " for first year" + """\n""" +
-                      "d. " + value[0])
+                result.append([
+                str(value[8]),
+                "a. worry free: rental income will cover all expense",
+                "b. covered '100%' expense",
+                str("b. gross shortage [rental - expenses] =  " + str(value[10])+ " for first year"),
+                str("net cash income (rental - all expenses - principal) = "+ str(value[10]) + " for first year"),
+                str("d. " + value[0])
+                ])
 
-
-        print("-"*50)
-        print("""(~˘▾˘)~ end of analysis ~(˘▾˘~) """)
-
-
-        print("-"*50)
-        print("""\n""")
-        print("(☞ຈل͜ຈ)☞  press y to try another zipcode? press any other key to quit")
-        tryagain = input().lower()
-        if tryagain == 'y':
-            main()
-        else:
-            bye = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]" + " Bye now."
-            return bye
+        return result
 
     else:
-        # alter the input
-        print("""\n""")
-        print("(☞ຈل͜ຈ)☞  press y to try the tool again or press any other key to quit")
-        tryagain = input().lower()
-        if tryagain == 'y':
-            main()
-        else:
-            bye = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]" + " Bye now."
-            return bye
-
-def user_input(input_description, low, high):
-
-    while 1:
-        print("-"*50)
-        print("guided value: between %9.2f and %9.2f" % (low, high))
-        input_amount = input(input_description)
-
-        try:
-            amount = float(input_amount)
-            if low <= amount <= high:
-                return amount
-        except:
-            # ask user to input valid parameter
-            print("try the valid number or the sample given")
+        return "no listing found for this zipcode"
 
 
-def main():
-
-    print("Welcome to Investment Condo Finder")
-    print("""\n""")
-    print("""User Guide:""")
-    print("""step 1: choose one zipcode""")
-    print("""step 2: input following values:""")
-    print("""        downpayment""")
-    print("""        mortgage loan amount""")
-    print("""        interest rate""")
-    print("""        mortgage years""")
-    print("""step 3: review the analysis result""")
-    print(""" """)
-
-    print("Choose The Zipcode: ")
-    print("enter [1] for zipcode: 94158")
-    print("enter [2] for zipcode: 94103" )
-    print("enter [3] for zipcode: 94105")
-    print("enter [4] for zipcode: 94107")
-    print("enter [q] quit")
-    print(" ")
-    # Ask for the user's choice.
-    choice = input("your choice of zipcode : ")
-
-    if (choice == '1' or choice == "94158" or choice == '2' or choice == "94103" or choice == '3' or choice == "94105"
-    or choice == '4' or choice == "94107"):
-        print(" ")
-        time.sleep(0.5)
-        print("""read me: """)
-        print("""1) the tool ignores incomplete listings (for example, missing tax information)""")
-        print("""2) the source data is all from Zillow.com, consult with professionals for up-to-date data""")
-        #time.sleep()
-        print(" ")
-        print("""(~˘▾˘)~ start of analysis ~(˘▾˘~) """)
-        #input("press any key to continue...")
-
-        # Respond to the user's choice.
-        if choice == '1' or choice == "94158":
-
-            find_valuable_listing('San Francisco, CA 94158')
-
-        elif choice == '2' or choice == "94103":
-
-            find_valuable_listing('San Francisco, CA 94103')
-
-        elif choice == '3' or choice == "94105":
-
-            find_valuable_listing('San Francisco, CA 94105')
-
-        elif choice == '4' or choice == "94107":
-
-            find_valuable_listing('San Francisco, CA 94107')
-
-    elif choice == 'q'or choice == 'Q':
-        print("""\n""")
-        print("[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]" + " Thanks for your testing ")
-
-    else:
-        print("""\n""")
-        print("Yo, invalid choice, please input zipcode choice [1][2][3][4] or [q] to quit")
-        print("""\n""")
-        print("(☞ຈل͜ຈ)☞  press Y to try again? or" + """\n""" +
-                 "        press any other key to quit")
-
-        tryagain = input().lower()
-
-        if tryagain == 'y':
-            main()
-        else:
-            print("""\n""")
-            print("[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]" + " Bye now.")
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__find_valuable_listing__":
+    find_valuable_listing()
 
 
 
 
-# In[17]:
+# In[44]:
 
-
-
-
-# In[ ]:
-
-
+find_valuable_listing('San Francisco, CA 94158', 200000, 850000, 3.75, 30)
 
 
 # In[ ]:

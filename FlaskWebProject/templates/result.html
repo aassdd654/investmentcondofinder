@@ -1,11 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+</head>
+
 {% extends "base.html" %}
 
-{% block page_content %}
-<div class="page-header">
-  <h1>{{ title }}</h1>
-  <h1>{{ year }}</h1>
-  
-  <h1>{{ result }}</h1>
-
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+      data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Investment Condo Finder</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 {% endblock %}
+
+
+{% block page_content %}
+
+<div class="container">
+  <div class="page-header">
+    <h3>read me:</h3>
+    <h3>1)the tool performs the analysis only for the first year data</h3>
+    <h3>2)the tool does not consider the opportunity cost of the downpayment."</h3>
+  </div>
+</div>
+
+<div class="container">
+  <div class="page-content1">
+    <h3>Investment Budget: {{ affordable_amount }}</h3>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="page-content2">
+    <table>
+      {% for i in result %}
+      <table>
+        {% for j in i %}
+        <h3> {{ j }}</h3>
+        {% endfor %}
+      </table>
+      {% endfor %}
+    </table>
+
+    <h3>(~˘▾˘)~ end of analysis ~(˘▾˘~)<h3>
+  </div>
+</div>
+
+{% endblock %}
+</html>

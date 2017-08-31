@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+</head>
+
+
 {% extends "base.html" %}
 
 {% import "bootstrap/wtf.html" as wtf %}
@@ -31,7 +41,10 @@
 
 <div class="container">
   <div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    <h1>Investment Condo Finder</h1>
+    <h2>step 1: choose one zipcode</h2>
+    <h2>step 2: input mortgage values</h2>
+    <h2>step 3: review the analysis result</h2>
   </div>
 </div>
 
@@ -44,10 +57,6 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="page-header">
-
-  </div>
-</div>
 
 {% endblock %}
+</html>
