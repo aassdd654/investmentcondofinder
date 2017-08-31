@@ -6,5 +6,6 @@ Flask-Bootstrap
 Flask-Cors
 Flask-WTF
 Jinja2
-
+bs4
+urllib3
 
