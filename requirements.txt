@@ -2,6 +2,7 @@ Flask
 wtforms
 flask_moment
 requests
+requests[security]
 Flask-Bootstrap
 Flask-Cors
 Flask-WTF

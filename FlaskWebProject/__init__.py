@@ -5,6 +5,8 @@ The flask application package.
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+import urllib3
+urllib3.disable_warnings()
 
 
 app = Flask(__name__)
